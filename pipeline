@@ -16,7 +16,7 @@ pipeline {
 			echo "docker stage"
                     //sh "ssh -o StrictHostKeyChecking=no root@3.216.80.220 'cd /root/jtest/ && echo "1 running pipeline dev" >> record.txt'"
                 }
-                sleep 2/
+                sleep 2
             }
         }
         stage("check-output-on-dev"){
