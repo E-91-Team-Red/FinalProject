@@ -6,7 +6,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['admin']) {
                     //sh "ssh -o StrictHostKeyChecking=no root@3.216.80.220 'cd /root/jtest/ && git checkout . && git checkout dev && git pull'"
-        		sh "ssh -o StrictHostKeyChecking=no root@3.216.80.220 'cd /root/jtest/ && git init && git clone git@code.harvard.edu:dec939/E-91-Final-Project.git'"
+        		sh "ssh -o StrictHostKeyChecking=no e91user@3.216.80.220 'mkdir /home/e91user/jtest cd /home/e91user/jtest && git init && git clone git@code.harvard.edu:dec939/E-91-Final-Project.git'"
 		}
                 sleep 2
             }
