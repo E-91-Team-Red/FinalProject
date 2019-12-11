@@ -31,11 +31,8 @@ pipeline {
         	input ("Merge dev to master? ")
                
                 sshagent (credentials: ['admin']) {
-<<<<<<< HEAD
+
                     echo "merge to stage"
-=======
-                    sh "ssh -o StrictHostKeyChecking=no e91user@34.201.210.71 'cd /home/e91user/jtest && echo "3 merged from dev to stage" >> record.txt'"
->>>>>>> 7ca6a390ace07772e9ff627ae0d270649bdfbb28
                 }
                 sleep 2
             }
