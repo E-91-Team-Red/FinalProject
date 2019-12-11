@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    stages {
+        stage("pull-updates-to-dev"){
+            steps {
+                sshagent (credentials: ['admin']) {
+                    sh "ssh -o StrictHostKeyChecking=no root@3.216.80.220 'cd /usr/share/nginx/html/ && git checkout . && git checkout dev && git pull'"
+                }
+                sleep 2
+            }
+        }    
+        stage("run-docker-code-on-dev"){
+            steps {
+                sshagent (credentials: ['admin']) {
+                    sh "ssh -o StrictHostKeyChecking=no root@3.216.80.220 'cd /usr/share/nginx/html/ echo "1: running pipeline dev" >> record.txt'"
+                }
+                sleep 2
+            }
+        }
+        stage("check-output-on-dev"){
+            steps {
+                sshagent (credentials: ['admin']) {
+                    sh "ssh -o StrictHostKeyChecking=no root@3.216.80.220 'cd /usr/share/nginx/html/ echo "2: check output on dev" >> record.txt'"
+                }
+                sleep 2
+            }
+        }
+        stage("merger-dev-to-stage"){
+            steps('Merge approval') {
+                //timeout(time: 2, unit: “HOURS”) {
+                    input ("Merge dev to master? ")
+                //}
+                sshagent (credentials: ['admin']) {
+                    sh "ssh -o StrictHostKeyChecking=no root@3.216.80.220 'echo "3: merged from dev to stage" >> record.txt'"
+                }
+                sleep 2
+            }
+    	}
+}
