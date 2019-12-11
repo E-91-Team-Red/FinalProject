@@ -13,7 +13,7 @@ pipeline {
         stage("run-docker-code-on-dev"){
             steps {
                 sshagent (credentials: ['admin']) {
-                    sh "ssh -o StrictHostKeyChecking=no e91user@3.216.80.220 'cd /home/e91user/jtest  && echo "1 running pipeline dev" >> record.txt'"
+                    echo "run docker"
                 }
                 sleep 2
             }
@@ -21,7 +21,7 @@ pipeline {
         stage("check-output-on-dev"){
             steps {
                 sshagent (credentials: ['admin']) {
-		   sh "ssh -o StrictHostKeyChecking=no e91user@3.216.80.220 'cd /home/e91user/jtest && echo "2 check output on dev" >> record.txt'"
+		   echo "check output on dev"
                 }
                 sleep 2
             }
@@ -31,7 +31,11 @@ pipeline {
         	input ("Merge dev to master? ")
                
                 sshagent (credentials: ['admin']) {
+<<<<<<< HEAD
+                    echo "merge to stage"
+=======
                     sh "ssh -o StrictHostKeyChecking=no e91user@34.201.210.71 'cd /home/e91user/jtest && echo "3 merged from dev to stage" >> record.txt'"
+>>>>>>> 7ca6a390ace07772e9ff627ae0d270649bdfbb28
                 }
                 sleep 2
             }
