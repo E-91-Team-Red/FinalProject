@@ -15,7 +15,7 @@ pipeline {
                     sh "ssh -o StrictHostKeyChecking=no e91user@3.230.126.252 'cd /home/e91user/web/FinalProject/ && sudo docker container stop \$(sudo docker container ls -aq) && sudo docker container rm \$(sudo docker container ls -aq) && sudo docker build -t dev-server . && sudo docker run -dit --name dev -p 80:80 dev-server'"
                 }
                 sleep 2
-                code=$(curl -Is 3.230.126.252 | head -n 1 | awk '{print $2}'); if [ $code = 200 ]; then exit 0; else exit 64; fi
+                sh "code=$(curl -Is 3.230.126.252 | head -n 1 | awk '{print $2}'); if [ $code = 200 ]; then exit 0; else exit 64; fi"
             }
         }
         stage("merge-dev-to-stage"){
