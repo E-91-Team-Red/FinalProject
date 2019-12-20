@@ -17,6 +17,14 @@ pipeline {
                 sleep 2
             }
         }
+	stage("Test-output-on-dev"){
+            steps {
+                sshagent (credentials: ['admin']) {
+                    sh "ssh -o StrictHostKeyChecking=no e91user@3.230.126.252 'curl -Is http://3.230.126.252/ | head -n 1'"
+                }
+                sleep 2
+            }
+        }
         stage("merge-dev-to-stage"){
             steps('Merge approval') {               
                 sshagent (credentials: ['admin']) {
@@ -37,6 +45,14 @@ pipeline {
             steps {
                 sshagent (credentials: ['admin']) {
                    sh "ssh -o StrictHostKeyChecking=no e91user@34.205.155.170 'cd /home/e91user/web/FinalProject/ && sudo docker container stop \$(sudo docker container ls -aq) && sudo docker container rm \$(sudo docker container ls -aq) && sudo docker build -t stage-server . && sudo docker run -dit --name stage -p 80:80 stage-server'"
+                }
+                sleep 2
+            }
+        }
+	stage("Test-output-on-stage"){
+            steps {
+                sshagent (credentials: ['admin']) {
+                    sh "ssh -o StrictHostKeyChecking=no e91user@3.230.126.252 'curl -Is http://34.205.155.170/ | head -n 1'"
                 }
                 sleep 2
             }
@@ -62,6 +78,14 @@ pipeline {
             steps {
                 sshagent (credentials: ['admin']) {
                     sh "ssh -o StrictHostKeyChecking=no e91user@35.245.200.195 'cd /home/e91user/web/FinalProject/ && sudo docker container stop \$(sudo docker container ls -aq) && sudo docker container rm \$(sudo docker container ls -aq) && sudo docker build -t prod-server . && sudo docker run -dit --name prod -p 80:80 prod-server'"
+                }
+                sleep 2
+            }
+        }
+	stage("Test-output-on-master"){
+            steps {
+                sshagent (credentials: ['admin']) {
+                    sh "ssh -o StrictHostKeyChecking=no e91user@35.245.200.195 'curl -Is http://35.245.200.195/ | head -n 1'"
                 }
                 sleep 2
             }
