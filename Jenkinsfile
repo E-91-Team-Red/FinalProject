@@ -20,7 +20,8 @@ pipeline {
 	stage("Test-output-on-dev"){
             steps {
                 sshagent (credentials: ['admin']) {
-                    sh "ssh -o StrictHostKeyChecking=no e91user@3.230.126.252 'curl -Is http://3.230.126.252/ | head -n 1'"
+                      sh "ssh -o StrictHostKeyChecking=no e91user@3.230.126.252 'curl -Is http://3.230.126.252/ | head -n 1'"
+		      sh "ssh -o StrictHostKeyChecking=no e91user@3.230.126.252 'curl -Is 34.205.155.170 | head -n 1 | awk '{print $2}'; if ["$code = 200"]; then exit 0; else exit 64; fi'"
                 }
                 sleep 2
             }
@@ -92,4 +93,4 @@ pipeline {
         }
     } 		 
 }
- 
+ e
